@@ -9,8 +9,7 @@ plt.style.use('fivethirtyeight')
 import numpy as np
 import prophet
 
-showWarningOnDirectExecution = false
-
+ 
 df = pd.read_csv('verdun_MAJ.csv' )
  
 df['y'] = pd.array(df.y, dtype=pd.Int64Dtype())
@@ -170,14 +169,14 @@ st.pyplot(fig1)
 fig = pilot3() 
 
 st.pyplot(fig)
-dat = st.text_input("Faire la prédiction à partir de la date : ", '') 
-d=predict(dat)
-st.dataframe(d['yhat'])
+if text_input:
+ dat = st.text_input("Faire la prédiction à partir de la date : ", '') 
+ d=predict(dat)
+ st.dataframe(d['yhat'])
+ chart_data = pd.DataFrame(d[[ 'ds','yhat' ]] )
+ st.line_chart(chart_data , x='ds', y='yhat' )
 
 
-chart_data = pd.DataFrame(
-  d[[ 'ds','yhat' ]] )
 
-st.line_chart(chart_data , x='ds', y='yhat' )
 
 
