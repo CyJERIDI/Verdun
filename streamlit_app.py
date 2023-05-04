@@ -6,32 +6,147 @@ import streamlit as st
 import seaborn as sns
 
 
-"""
-# Welcome to Streamlit!
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+df = pd.read_csv('data/verdun_MAJ.csv' )
+ 
+df['y'] = pd.array(df.y, dtype=pd.Int64Dtype())
+df['ds'] = pd.to_datetime(df.ds, format='%Y-%m-%d', errors='coerce')
+
+df1 = df.loc[df.ds <"2020-01-01"].copy()
+df2 =df.loc[df.ds> "2020-12-31"].copy()
+frames = [df1, df2]
+split_date = '2023-04-15'  
+df = pd.concat(frames)
+df_train = df.loc[df.ds <=split_date].copy()
+df_test =df.loc[df.ds> split_date].copy()
+
+from prophet import Prophet
 
 
-with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
+def predict(date_future):
+ df_train_prophet = df_train.reset_index()  
 
-    Point = namedtuple('Point', 'x y')
-    data = []
+ 
 
-    points_per_turn = total_points / num_turns
+ model = Prophet ( )
+ model.add_country_holidays(country_name='FR')
 
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
+ model.fit(df_train_prophet)
+ future_date = pd.date_range(date_future , periods=30, freq='D')
+ future_date = pd.DataFrame({'ds': future_date })
+ pred = model.predict(future_date )
+ return pred
 
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
+ 
+
+from pandas.api.types import CategoricalDtype
+
+
+def create_features(df, label=None):
+     
+    df = df.copy()
+    df['datetime'] = df['ds']
+    
+    df['dayofweek'] = df['ds'].dt.dayofweek
+    df['quarter'] = df['ds'].dt.quarter
+    df['month'] = df['ds'].dt.month
+    df['year'] = df['ds'].dt.year
+    df['dayofyear'] = df['ds'].dt.dayofyear
+    df['dayofmonth'] = df['ds'].dt.day
+    df['weekofyear'] = df['ds'].dt.isocalendar().week
+    df['ds'] = df.index
+    
+    X = df[['datetime','dayofweek','quarter','month','year',
+           'dayofyear','dayofmonth','weekofyear']]
+    if label:
+        y = df[label]
+        return X, y
+    return X
+
+X, y = create_features(df, label='y')
+
+
+features_and_target = pd.concat([X, y], axis=1)
+
+
+cat_type = CategoricalDtype(categories=['Monday','Tuesday',
+                                        'Wednesday',
+                                        'Thursday','Friday',
+                                        'Saturday','Sunday'],
+                            ordered=True)
+
+def create_features_saison(df, label=None):
+  
+    
+    df = df.copy()
+    
+     
+    df['dayofweek'] = df['ds'].dt.dayofweek
+    df['weekday'] = df['ds'].dt.day_name()
+    df['weekday'] = df['weekday'].astype(cat_type)
+    df['quarter'] = df['ds'].dt.quarter
+    df['month'] = df['ds'].dt.month
+    df['year'] = df['ds'].dt.year
+    df['dayofyear'] = df['ds'].dt.dayofyear
+    df['dayofmonth'] = df['ds'].dt.day
+    df['weekofyear'] = df['ds'].dt.isocalendar().week
+    df['date_offset'] = (df.ds.dt.month*100 + df.ds.dt.day - 320)%1300
+    df['date'] = df.index
+    df['season'] = pd.cut(df['date_offset'], [0, 300, 602, 900, 1300], 
+                          labels=['Printemps' ,'Été', 'Automne' ,'Hiver']
+                   )
+    X = df[[ 'dayofweek','quarter','month','year',
+           'dayofyear','dayofmonth','weekofyear','weekday',
+           'season']]
+    if label:
+        y = df[label]
+        return X, y
+    return X
+
+X, y = create_features_saison(df,label='y')
+features_and_target = pd.concat([X, y], axis=1)
+ 
+
+def pilot() :
+  sns.pairplot(features_and_target_sCOV.dropna(),
+             hue='year',  palette='hls',
+             x_vars=['dayofweek',
+                     'year','weekofyear'],
+             y_vars='y',
+             height=5,
+             plot_kws={'alpha':0.15, 'linewidth':0}  
+            )
+  plt.suptitle('Nombre entrée parking par jour , année et semaine ')
+ 
+  return plt
+def pilot3(): 
+  fig, ax = plt.subplots(figsize=(10, 5))
+  sns.boxplot(data=features_and_target.dropna(),
+            x='weekday',
+            y='y',
+            hue='season',
+            ax=ax,
+            linewidth=1)
+  ax.set_title('Nombre Entrée Parking par saison  ')
+  ax.set_xlabel('jour de la semaine')
+  ax.set_ylabel('Nombre Entrée Parking')
+  ax.legend(bbox_to_anchor=(1, 1))
+  return plt 
+fig = pilot3() 
+
+st.pyplot(fig)
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+st.title("A Simple Streamlit Web App")
+
+
+dat = st.text_input("Faire la prédiction à partir de la date : ", '') 
+d=predict(dat)
+st.dataframe(d['yhat'])
