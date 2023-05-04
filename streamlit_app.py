@@ -109,6 +109,18 @@ X, y = create_features_saison(df,label='y')
 features_and_target = pd.concat([X, y], axis=1)
  
 
+def plot1(date_future ):
+ pred= predict(date_future)
+ fig = make_subplots(specs=[[{"secondary_y": True}]])
+ fig.add_trace(
+    go.Scatter(x=pred['ds'], y=pred['yhat'], name="valeurs réelles"),
+    secondary_y=False,)
+ 
+ fig.update_layout(
+    title_text="valeurs réelles vs Prédites")
+ fig.update_xaxes(title_text="Timeline")
+ fig.update_yaxes(title_text="valeurs réelles", secondary_y=False)
+ return fig
 def pilot() :
   sns.pairplot(features_and_target.dropna(),
              hue='year',  palette='hls',
@@ -145,7 +157,7 @@ def pilot3():
  
  
  
-st.title("A Simple Streamlit Web App")
+st.title("Modèle de prédiction des entrées du parking Verdun Sud")
 
 
 fig1 = pilot() 
@@ -157,3 +169,7 @@ st.pyplot(fig)
 dat = st.text_input("Faire la prédiction à partir de la date : ", '') 
 d=predict(dat)
 st.dataframe(d['yhat'])
+
+fig3 = plot1(dat) 
+
+st.pyplot(fig3)
