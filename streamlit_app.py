@@ -171,13 +171,5 @@ fig = pilot3()
 st.pyplot(fig)
 
 dat = st.text_input("Faire la prédiction à partir de la date : ", '') 
-if dat:
- d=predict(dat)
- st.dataframe(d['yhat'])
- chart_data = pd.DataFrame(d[[ 'ds','yhat' ]] )
- st.line_chart(chart_data , x='ds', y='yhat' )
-
-
-
 
 
