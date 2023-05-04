@@ -3,3 +3,5 @@ pandas
 streamlit
 seaborn
 prophet
+numpy
+matplotlib
