@@ -107,7 +107,9 @@ def create_features_saison(df, label=None):
 
 X, y = create_features_saison(df,label='y')
 features_and_target = pd.concat([X, y], axis=1)
- 
+
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 def plot1(date_future ):
  pred= predict(date_future)
