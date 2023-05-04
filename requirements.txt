@@ -5,3 +5,5 @@ seaborn
 prophet
 numpy
 matplotlib
+plotly.subplots
+plotly.graph_objects
