@@ -169,8 +169,9 @@ st.pyplot(fig1)
 fig = pilot3() 
 
 st.pyplot(fig)
-if text_input:
- dat = st.text_input("Faire la prédiction à partir de la date : ", '') 
+
+dat = st.text_input("Faire la prédiction à partir de la date : ", '') 
+if dat:
  d=predict(dat)
  st.dataframe(d['yhat'])
  chart_data = pd.DataFrame(d[[ 'ds','yhat' ]] )
