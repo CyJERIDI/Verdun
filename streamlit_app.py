@@ -11,7 +11,7 @@ df = pd.read_csv('verdun_MAJ.csv' )
 df['y'] = pd.array(df.y, dtype=pd.Int64Dtype())
 df['ds'] = pd.to_datetime(df.ds, format='%Y-%m-%d', errors='coerce')
 
-df1 = df.loc[df.ds <"2020-01-01"].copyverdun_MAJ.csv
+df1 = df.loc[df.ds <"2020-01-01"].copy()
 df2 =df.loc[df.ds> "2020-12-31"].copy()
 frames = [df1, df2]
 split_date = '2023-04-15'  
