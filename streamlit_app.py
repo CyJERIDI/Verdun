@@ -171,7 +171,10 @@ st.pyplot(fig)
 dat = st.text_input("Faire la prédiction à partir de la date : ", '') 
 d=predict(dat)
 st.dataframe(d['yhat'])
-w= d[[ 'ds','yhat' ]]
-fig3 = plot1(dat) 
 
-st.line_chart(w)
+
+chart_data = pd.DataFrame(
+   w  )
+
+st.line_chart(chart_data)
+
