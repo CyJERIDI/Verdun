@@ -110,7 +110,7 @@ features_and_target = pd.concat([X, y], axis=1)
  
 
 def pilot() :
-  sns.pairplot(features_and_target_sCOV.dropna(),
+  sns.pairplot(features_and_target.dropna(),
              hue='year',  palette='hls',
              x_vars=['dayofweek',
                      'year','weekofyear'],
