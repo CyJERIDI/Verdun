@@ -9,6 +9,8 @@ plt.style.use('fivethirtyeight')
 import numpy as np
 import prophet
 
+showWarningOnDirectExecution = false
+
 df = pd.read_csv('verdun_MAJ.csv' )
  
 df['y'] = pd.array(df.y, dtype=pd.Int64Dtype())
@@ -177,4 +179,5 @@ chart_data = pd.DataFrame(
   d[[ 'ds','yhat' ]] )
 
 st.line_chart(chart_data , x='ds', y='yhat' )
+
 
