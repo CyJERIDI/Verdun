@@ -4,7 +4,10 @@ import math
 import pandas as pd
 import streamlit as st
 import seaborn as sns
-
+import matplotlib.pyplot as plt
+plt.style.use('fivethirtyeight') 
+import numpy as np
+import prophet
 
 df = pd.read_csv('verdun_MAJ.csv' )
  
