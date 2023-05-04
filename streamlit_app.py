@@ -176,5 +176,5 @@ st.dataframe(d['yhat'])
 chart_data = pd.DataFrame(
   d[[ 'ds','yhat' ]] )
 
-st.line_chart(chart_data)
+st.line_chart(chart_data ? x='ds', y='yhat' )
 
