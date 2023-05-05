@@ -175,6 +175,8 @@ if dfe:
  d=predict(dfe)
  
  chart_data = pd.DataFrame(d[['ds', 'yhat' ]] )
+ chart_data = chart_data.rename(columns={'ds': 'date', 'yhat': 'Entrée'})
+
  st.line_chart(chart_data , x='ds', y='yhat' )
  st.dataframe(d['yhat'])
 
