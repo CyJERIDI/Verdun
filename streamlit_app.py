@@ -160,7 +160,7 @@ def pilot3():
  
  
  
-st.title("Modèle de prédiction des entrées du parking Verdun Sud")
+st.title("Modèle prédictif des entrées du parking Verdun Sud")
 
 
 fig1 = pilot() 
