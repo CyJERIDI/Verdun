@@ -161,7 +161,7 @@ def pilot3():
  
  
 st.title("Modèle de prédiction des entrées du parking Verdun Sud")
-
+st.date_input()
 
 fig1 = pilot() 
 
