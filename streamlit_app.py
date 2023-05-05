@@ -174,7 +174,7 @@ dfe=st.date_input("Faire la prédiction à partir de la date :")
 if dfe:
  d=predict(dfe)
  
- chart_data = pd.DataFrame(d[[ 'A':'ds', 'B':'yhat' ]] )
+ chart_data = pd.DataFrame(d[[{ 'A':'ds', 'B':'yhat' }]] )
  st.line_chart(chart_data , x='ds', y='yhat' )
  st.dataframe(d['yhat'])
 
