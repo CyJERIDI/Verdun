@@ -161,7 +161,7 @@ def pilot3():
  
  
 st.title("Modèle de prédiction des entrées du parking Verdun Sud")
-st.date_input("date future")
+dfe=st.date_input("date future")
 
 fig1 = pilot() 
 
@@ -172,8 +172,8 @@ st.pyplot(fig)
 
 dat = st.text_input("Faire la prédiction à partir de la date : ", '') 
 
-if dat:
- d=predict(dat)
+if dfe:
+ d=predict(dfe)
  st.dataframe(d['yhat'])
  chart_data = pd.DataFrame(d[[ 'ds','yhat' ]] )
  st.line_chart(chart_data , x='ds', y='yhat' )
