@@ -33,9 +33,10 @@ def predict(date_future):
 
  model = Prophet ( )
  model.add_country_holidays(country_name='FR')
+ 
+ model.fit(df_train_prophet)
 
-
- pred =null
+ pred =''
  return pred
 
  
