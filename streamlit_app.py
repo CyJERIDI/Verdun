@@ -37,7 +37,7 @@ def predict(date_future):
  model.fit(df_train_prophet)
  future_date = pd.date_range(date_future , periods=30, freq='D')
  future_date = pd.DataFrame({'ds': future_date })
- pred = model.predict(future_date )
+ pred = null
  return pred
 
  
