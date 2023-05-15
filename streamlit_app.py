@@ -1,3 +1,5 @@
+
+
 from collections import namedtuple
 import altair as alt
 import math
@@ -33,10 +35,11 @@ def predict(date_future):
 
  model = Prophet ( )
  model.add_country_holidays(country_name='FR')
- 
- model.fit(df_train_prophet)
 
- pred =''
+ model.fit(df_train_prophet)
+ future_date = pd.date_range(date_future , periods=30, freq='D')
+ future_date = pd.DataFrame({'ds': future_date })
+ pred = model.predict(future_date )
  return pred
 
  
@@ -185,7 +188,5 @@ if dfe:
 
 
  
-
-
 
 
