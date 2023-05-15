@@ -172,15 +172,14 @@ st.pyplot(fig)
  
 dfe=st.date_input("Faire la prédiction d'un mois à partir de la date : x")
 
-if dfe:
- d=model.predict(dfe)
+d=predict(dfe)
  
- chart_data = pd.DataFrame(d[['ds', 'yhat' ]] )
- chart_data['yhat'] = round( chart_data['yhat'])
- chart_data = chart_data.rename(columns={'ds': 'date', 'yhat': 'Entrée'})
+chart_data = pd.DataFrame(d[['ds', 'yhat' ]] )
+chart_data['yhat'] = round( chart_data['yhat'])
+chart_data = chart_data.rename(columns={'ds': 'date', 'yhat': 'Entrée'})
 
- st.line_chart(chart_data , x='date', y='Entrée' )
- st.dataframe(d['yhat'])
+st.line_chart(chart_data , x='date', y='Entrée' )
+st.dataframe(d['yhat'])
 
 
 
