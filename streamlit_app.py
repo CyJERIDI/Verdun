@@ -173,7 +173,7 @@ st.pyplot(fig)
 dfe=st.date_input("Faire la prédiction d'un mois à partir de la date : x")
 
 if dfe:
- d=predict(dfe)
+ d=model.predict(dfe)
  
  chart_data = pd.DataFrame(d[['ds', 'yhat' ]] )
  chart_data['yhat'] = round( chart_data['yhat'])
