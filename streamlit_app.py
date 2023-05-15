@@ -170,7 +170,7 @@ fig = pilot3()
 
 st.pyplot(fig)
  
-dfe=st.date_input("Faire la prédiction d'un mois à partir de la date :")
+dfe=st.date_input("Faire la prédiction d'un mois à partir de la date : x")
 if dfe:
  d=predict(dfe)
  
