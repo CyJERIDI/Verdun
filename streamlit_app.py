@@ -1,5 +1,3 @@
-
-
 from collections import namedtuple
 import altair as alt
 import math
@@ -172,11 +170,9 @@ fig = pilot3()
 
 st.pyplot(fig)
  
-dfe=st.date_input("Faire la prédiction d'un mois à partir de la date : x")
-
-
+dfe=st.date_input("Faire la prédiction d'un mois à partir de la date :")
 if dfe:
- d=predict("2023-05-05")
+ d=predict(dfe)
  
  chart_data = pd.DataFrame(d[['ds', 'yhat' ]] )
  chart_data['yhat'] = round( chart_data['yhat'])
@@ -184,9 +180,3 @@ if dfe:
 
  st.line_chart(chart_data , x='date', y='Entrée' )
  st.dataframe(d['yhat'])
-
-
-
- 
-
-
